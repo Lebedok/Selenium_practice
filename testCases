@@ -1,0 +1,73 @@
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.Assert;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class Task1 {
+
+
+      /*
+        1) Navigate to "https://www.seleniumeasy.com/test/basic- first-form-demo.html"
+        2) Validate the title is equals to "Selenium Easy Demo - Simple Form to Automate using Selenium"
+        3) Enter message "First Test Case" on the single input field Click Show Message
+        4) Validate the result is "Your Message: First Test Case
+         */
+
+    @Test
+
+    public void test1() throws InterruptedException {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.seleniumeasy.com/test/basic-first-form-demo.html");
+        Assert.assertEquals(driver.getTitle(), "Selenium Easy Demo - Simple Form to Automate using Selenium");
+
+        Thread.sleep(2000);
+
+        WebElement closeButton = driver.findElement(By.id("at-cv-lightbox-close"));
+        closeButton.click();
+
+        Thread.sleep(2000);
+
+        WebElement message = driver.findElement(By.xpath("//input[@id='user-message']"));
+        message.sendKeys("First Test Case" + Keys.ENTER);
+
+        WebElement showMessage = driver.findElement(By.xpath("//*[@id='get-input']/button"));
+        showMessage.click();
+
+        driver.close();
+
+
+    }
+
+    /*
+    Navigate to "https://www.seleniumeasy.com/test/basic- first-form-demo.html"
+    Enter a - 12 on Two Input Fields
+    Enter b - 17 on Two Input Fields
+    Click Get Total button
+    Validate the result is "Total a + b = 29"
+     */
+
+    @Test
+    public void test2() {
+
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.seleniumeasy.com/test/basic-first-form-demo.html");
+        WebElement inputField1 = driver.findElement(By.xpath("//input[@id='sum1']"));
+        inputField1.sendKeys("12");
+        WebElement inputField2 = driver.findElement(By.xpath("//input[@id='sum2']"));
+        inputField2.sendKeys("17");
+        WebElement totalButton = driver.findElement(By.xpath("//button[@onclick='return total()']"));
+        totalButton.click();
+        WebElement getResult = driver.findElement(By.xpath("//div[@style='height: 50px; width: 100%;']"));
+        String result = getResult.getText();
+        Assert.assertEquals("Total a + b = 29", result);
+
+
+    }
